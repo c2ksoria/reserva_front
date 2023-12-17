@@ -50,3 +50,25 @@ export function marcarDisponibilidad(propiedades, reservas) {
     });
     return propiedadesDisponibles;
   }
+
+  export function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  export function procesarFechas(data){
+    console.log("ingresando a getDateInfo...")
+    let temporal_fecha_inicio = data.startStr
+    let temporal_fecha_fin = data.endStr
+
+    let fecha_inicio= (temporal_fecha_inicio.split('T'))[0]
+    let fecha_fin= (temporal_fecha_fin.split('T'))[0]
+    console.log(fecha_inicio, fecha_fin)
+
+    return [fecha_inicio, fecha_fin]
+
+  }
