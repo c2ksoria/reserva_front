@@ -42,7 +42,7 @@ function FullCalendarApp() {
     // console.log(query)
     const datos = await fetch(query)
     const devolver = await datos.json()
-    // console.log(devolver)
+    console.log(devolver)
     // console.log("Cantidad de datos recibidos: ", devolver.length)
 
     const array_datos_mostrar = []

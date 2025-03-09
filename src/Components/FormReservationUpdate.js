@@ -59,29 +59,30 @@ const FormReservationUpdate = ({ id }) => {
   async function duplicateReservation() {
 
     console.log("duplicando...: ", slug)
-
-    let datos = []
-    const response = await fetch(`http://127.0.0.1:8000/api/duplicate-reservation/${slug}`)
-      .then(response => {
-        if (response.status !== Error) {
-          response.json().then(data => {
-            // Mostrar los errores en alertas
-            alert(`Error ${response.status}: ${JSON.stringify(data)}`);
-          });
-        } else {
-          // Los datos se crearon correctamente
-          response.json().then(data => {
-            // Mostrar mensaje de éxito en una alerta
-            // console.log("respuesta desde el servidor: ",data)
-            alert(`La Reserva se duplicó correctamente con id: ${data.new_reservation_id}`);
-          });
-        }
-      })
-      .catch(error => {
-        console.error('Hubo un error al enviar los datos', error);
+    try {
+      // Realiza la solicitud POST
+      const response = await fetch(`http://127.0.0.1:8000/api/duplicate-reservation/${slug}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Indica que el contenido es JSON
+        },
       });
-
-
+  
+      // Procesa la respuesta
+      if (response.ok) {
+        const data = await response.json();
+        // Mostrar mensaje de éxito en una alerta
+        alert(`La reserva se duplicó correctamente con id: ${data.new_reservation_id}`);
+      } else {
+        const errorData = await response.json();
+        // Mostrar los errores en alertas
+        alert(`Error ${response.status}: ${JSON.stringify(errorData)}`);
+      }
+    } catch (error) {
+      // Manejo de errores en la solicitud
+      console.error("Error al duplicar la reserva:", error);
+      alert("Ocurrió un error al intentar duplicar la reserva.");
+    }
   }
 
 

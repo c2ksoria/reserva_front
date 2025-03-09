@@ -16,14 +16,14 @@ function Income() {
   const [error1, setError] = useState(false)
 
   async function consulta() {
-    const response = await fetch("http://127.0.0.1:8000/api/commercial")
+    const response = await fetch("http://localhost:8000/api/commercial")
     const data2 = await response.json();
     // console.log(data)
     separarComercios(data2)
 
   }
   async function get_recaudacion() {
-    const response = await fetch(`http://127.0.0.1:8000/api/montos?idCommercial=${comercio}&idMes=${mes}&idEstatus=2,4,19`)
+    const response = await fetch(`http://localhost:8000/api/montos?comercios=${comercio}&mes=${mes}&estatus=2,4,5,6,19&anio=${anio}`)
     const data1 = await response.json();
     setData(data1)
     console.log("Recaudación: ",data1)
@@ -71,7 +71,7 @@ function Income() {
   }
 
   const handlerAnio = (id) => {
-    // console.log(id)
+    console.log(id)
     setAnio(id)
   }
 
@@ -131,6 +131,7 @@ function Income() {
                 <option value='0'>Favor de Elegir un año</option>
                 <option value='2023'>2023</option>
                 <option value='2024'>2024</option>
+                <option value='2025'>2025</option>
 
               </select>
 

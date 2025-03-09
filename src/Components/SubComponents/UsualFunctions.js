@@ -38,7 +38,7 @@ export async function consulta_hueco(propiedades, fecha_inicial, fecha_final) {
     let datos = []
     const response = await fetch(`http://127.0.0.1:8000/api/hueco/?fecha_prefijada=${fecha_inicial},${fecha_final}&propiedades=${propiedades}`)
     const data2 = await response.json()
-    console.log(data2)
+    console.log("Propiedades disponibles:",data2)
     return (data2)
 }
 

@@ -44,7 +44,7 @@ function SearchHole() {
         e.preventDefault()
         // console.log("buscando huecos...")
         // console.log(propiedades)
-        // console.log(checkProp)
+        console.log("Fechas:", fechas)
 
         const cadena = checkProp.join(',')
         let hueco = await consulta_hueco(cadena, fechas[0], fechas[1])

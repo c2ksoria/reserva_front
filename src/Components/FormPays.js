@@ -29,7 +29,7 @@ function FormPays() {
     }, []);
 
     async function fetchPayments() {
-        const response = await fetch(`http://localhost:8000/api/reservations/payments/list/${slug}`);
+        const response = await fetch(`http://localhost:8000/api/reservations/payments/?reserva=${slug}`);
         const data = await response.json();
         setPayments(data);
         console.log(data)
@@ -48,7 +48,7 @@ function FormPays() {
         formData.append('reserva', slug);
 
 
-        const response = await fetch('http://127.0.0.1:8000/api/reservations/payments/add', {
+        const response = await fetch('http://localhost:8000/api/reservations/payments/', {
             method: 'POST',
             body: formData
         })

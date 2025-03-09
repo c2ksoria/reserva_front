@@ -8,8 +8,8 @@ import Search from './Search';
 import Pagination_list from './Pagination_list';
 
 function ListReservation() {
-  const pageSize=50
-  const mainUrl= 'http://127.0.0.1:8000/api/pagination/?page='
+  const pageSize=100
+  const mainUrl= 'http://localhost:8000/api/pagination/?page='
   const [records, setRecords] = useState(0)
   const [datos, setDatos] = useState([])
   const [ordenAscendente, setOrdenAscendente] = useState(true); // Estado para llevar el orden actual
@@ -60,10 +60,11 @@ function ListReservation() {
     const devolver = await datos1.json()
     console.log(devolver)
     // console.log(devolver["estatus"]=="Finalizada")
-    setDatos(devolver['results'])
+    const guardar = devolver['results']
+    setDatos(guardar)
     setRecords(devolver['count'])
     console.log("cantidad de registros",records)
-    console.log(datos)
+    // console.log(datos)
     setIsLoading(false);
     // setFocus(true)
   }
@@ -77,24 +78,27 @@ function ListReservation() {
         "accion": prox
       })
     };
-    const datos_fetch = await fetch('http://127.0.0.1:8000/api/changestatus/', requestOptions)
-    const datosJson = await datos_fetch.json()
-    return datosJson['Data']
+    const datos_fetch = await fetch('http://localhost:8000/api/changestatus/', requestOptions)
+
+    return datos_fetch
   }
   const handler_change_status = async (id_1, estado, accion) => {
-    console.log(id_1)
+    // console.log(id_1)
     var xxxx = await fetch_new_status(id_1, estado, accion)
-    console.log("--------")
-    console.log(xxxx['status'])
-    console.log("--------")
+    let datosJson = await xxxx.json()
+    // console.log("--------")
+    // console.log(datosJson)
+    // console.log(xxxx)
+    // console.log("--------")
     // const xx = xxxx
-    if (xxxx['status'] === 200) {
+    if (datosJson['Data']['status'] === 200) {
       console.log("entró al if...")
+      // console.log(datosJson)
       const newState1 = datos.map((data) => {
         if (data.id === id_1) {
           return {
             ...data,
-            estatus: { 'id': id_1, 'nombre': xxxx['nuevoEstado'] },
+            estatus: { 'id': id_1, 'nombre': datosJson['Data']['nuevoEstado'] },
           }
         }
         // console.log("data modificada: ",data)
@@ -104,8 +108,9 @@ function ListReservation() {
       console.log(newState1.length)
     }
     else {
+      // Este alert no está funcionando; debería poder leer el valor de la variable: xxxx['status'] === 500 y el error: xxxx['status']
       <>
-        <Alert color="danger">Hubo un error...</Alert>
+        <Alert color="danger">{datosJson['Data']['error']}</Alert>
 
       </>
       console.log('Hubo un error inesperado...')
